@@ -2,7 +2,7 @@
 libname SQL ODBC DSN=IPSTestDB schema=sas;
 data _null_;
 	set sql.BaseYear;
-	call symput("BaseYearNo", input(substr(BaseYearID,5,1),1.));
+	call symput("BaseYearID", BaseYearID);
 	call symput("BasePeriod", BaseCensusPeriodID);
 run;
 
@@ -172,8 +172,8 @@ Proc sql;
 					end as DataSeriesID
 	from			work.ApplyRatios a
 	inner join		work.ApplyRatios b
-	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and
-					(b.CensusPeriodID=&baseperiod) and (b.YearNo=&BaseYearNo)
+	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and 
+					(b.YearID=%unquote(%str(%')&BaseYearID.%str(%')))
 	where			a.DataSeriesID ne "T36"
 	order by		IndustryID, DataSeriesID, YearID;
 quit;
