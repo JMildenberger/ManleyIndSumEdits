@@ -172,8 +172,7 @@ Proc sql;
 					end as DataSeriesID
 	from			work.ApplyRatios a
 	inner join		work.ApplyRatios b
-	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and 
-					(b.YearID=%unquote(%str(%')&BaseYearID.%str(%')))
+	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and (b.yearid="&BaseYearID")
 	where			a.DataSeriesID ne "T36"
 	order by		IndustryID, DataSeriesID, YearID;
 quit;
@@ -185,8 +184,7 @@ Proc sql;
 	Select			a.IndustryID, a.YearID, a.CensusPeriodID, a.YearNo, a.Value/b.Value*100 as Value
 	from			work.ApplyRatios a
 	inner join		work.ApplyRatios b
-	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and
-					(b.CensusPeriodID=&baseperiod) and (b.YearNo=&BaseYearNo)
+	on				(a.IndustryID=b.IndustryID) and (a.DataSeriesID=b.DataSeriesID) and (b.yearid="&BaseYearID")
 	where			a.DataSeriesID="T36"
 	order by		IndustryID, YearID;
 quit;
